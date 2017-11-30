@@ -50,6 +50,7 @@
   <modules>
     <module>ms-account-query</module>
     <module>ms-account-command</module>
+    <module>ms-domain</module>
   </modules>
 
 </project>
