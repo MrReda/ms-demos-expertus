@@ -35,21 +35,21 @@ public class AccountQueryResource {
         accounts.add(new Account(5, 1, "5"));
     }
 
-    @GetMapping(produces = APPLICATION_JSON_VALUE,path = "/account/{count}")
-    Optional<Account> getByCount(@PathVariable("count") String count) {
+    @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/accounts/{count}")
+    Optional<Account> getAccountByCount(@PathVariable("count") String count) {
         return accounts.stream().filter(
                 account -> account.getCount().equalsIgnoreCase(count)).findFirst();
     }
 
-    @GetMapping(produces = APPLICATION_JSON_VALUE,path = "/account/customer/{customerId}")
-    Optional<List<Account>> getByCustomer(@PathVariable("customerId") Integer customerId) {
+    @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/accounts/customer/{customerId}")
+    Optional<List<Account>> getAccountByCustomer(@PathVariable("customerId") Integer customerId) {
         List<Account> accountsList = accounts.stream().filter(account -> account.getCustomerId().intValue() == customerId.intValue()).collect(Collectors.toList());
         return CollectionUtils.isEmpty(accountsList) ? Optional.empty() : Optional.of(accountsList);
     }
 
 
-    @GetMapping(produces = APPLICATION_JSON_VALUE,path = "/account/all")
-    Optional<List<Account>> getAllAccounts(){
+    @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/accounts")
+    Optional<List<Account>> getAllAccounts() {
         return Optional.of(accounts);
     }
 
