@@ -24,6 +24,7 @@
 
   <modules>
     <module>expertus-eureka</module>
+    <module>expertus-gateway</module>
   </modules>
 
 </project>

@@ -13,6 +13,7 @@
 
     <groupId>com.expertus.demo.expertus-ms-services</groupId>
     <artifactId>expertus-eureka</artifactId>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
 
 

@@ -1,0 +1,22 @@
+zuul:
+  prefix: /api
+  routes:
+    account:
+      path: /account/**
+      serviceId: ms-account
+    customer:
+      path: /customer/**
+      serviceId: ms-customer
+
+ribbon:
+  eureka:
+    enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registerWithEureka: false
+
+server:
+  port: 8762
