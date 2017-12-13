@@ -1,3 +1,7 @@
+spring:
+  application:
+    name: ms-account
+
 server:
   port: ${PORT:8087}
 
@@ -12,3 +16,8 @@ eureka:
 ribbon:
   eureka:
     enabled: true
+
+instance:
+  preferIpAddress: true
+
+

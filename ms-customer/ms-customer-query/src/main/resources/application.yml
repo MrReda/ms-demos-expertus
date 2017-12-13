@@ -1,5 +1,9 @@
+spring:
+  application:
+    name: ms-customer
+
 server:
-  port: ${PORT:8086}
+  port: ${PORT:8089}
 
 eureka:
   client:
@@ -12,3 +16,6 @@ eureka:
 ribbon:
   eureka:
     enabled: true
+
+instance:
+  preferIpAddress: true

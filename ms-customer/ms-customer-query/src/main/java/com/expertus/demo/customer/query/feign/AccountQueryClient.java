@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@FeignClient("ms-account-query")
+@RequestMapping("/api")
 public interface AccountQueryClient {
 
     @RequestMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE, path = "/v1/accounts/customer/{customerId}")
