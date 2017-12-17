@@ -11,10 +11,10 @@ import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@RequestMapping("/api")
+@FeignClient("ms-account")
 public interface AccountQueryClient {
 
-    @RequestMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE, path = "/v1/accounts/customer/{customerId}")
+    @RequestMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE, path = "/api/v1/accounts/customer/{customerId}")
     Optional<List<Account>> getAccountByCustomer(@PathVariable("customerId") Integer customerId);
 
 

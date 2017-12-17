@@ -1,8 +1,9 @@
 package com.expertus.demo.customer.query.Api;
 
 
+import com.expertus.demo.account.domain.Account;
 import com.expertus.demo.customer.domain.Customer;
-import com.expertus.demo.customer.query.service.AccountRemoteService;
+import com.expertus.demo.customer.query.feign.AccountQueryClient;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CustomerQueryResource {
 
     @Autowired
-    AccountRemoteService accountRemoteService;
+    AccountQueryClient accountQueryClient;
+
     private List<Customer> customers;
 
     public CustomerQueryResource() {
@@ -36,7 +38,7 @@ public class CustomerQueryResource {
         customers.add(new Customer(5, "Amanda", 33));
     }
 
-    @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/customers/{name}")
+    @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/customers/{name}/name")
     Optional<Customer> getCustomerByName(@PathVariable("name") String name) {
         return customers.stream().filter(customer -> customer.getName().equalsIgnoreCase(name)).findFirst();
     }
@@ -49,7 +51,8 @@ public class CustomerQueryResource {
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/customers/{id}")
     Optional<Customer> getCustomerById(@PathVariable("id") Integer id) {
         Optional<Customer> customer = customers.stream().filter(_customer -> _customer.getId().intValue() == id).findFirst();
-        customer.get().setAccounts(accountRemoteService.getAccountByCustomer(id).get());
+        Optional<List<Account>> accountList = accountQueryClient.getAccountByCustomer(id);
+        customer.ifPresent(_customer->_customer.setAccounts(accountList.orElse(Lists.newArrayList())));
         return customer;
     }
 
