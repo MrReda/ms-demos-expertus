@@ -6,6 +6,7 @@ import com.expertus.demo.customer.domain.Customer;
 import com.expertus.demo.customer.query.feign.AccountQueryClient;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,29 +32,30 @@ public class CustomerQueryResource {
 
     public CustomerQueryResource() {
         customers = Lists.newArrayList();
-        customers.add(new Customer(1, "MrReda", 30));
-        customers.add(new Customer(2, "Jonathan", 25));
-        customers.add(new Customer(3, "Alex", 36));
-        customers.add(new Customer(4, "Richard", 42));
-        customers.add(new Customer(5, "Amanda", 33));
+        customers.add(new Customer(1, "MrReda", 30, null));
+        customers.add(new Customer(2, "Jonathan", 25, null));
+        customers.add(new Customer(3, "Alex", 36, null));
+        customers.add(new Customer(4, "Richard", 42, null));
+        customers.add(new Customer(5, "Amanda", 33, null));
     }
 
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/customers/{name}/name")
-    Optional<Customer> getCustomerByName(@PathVariable("name") String name) {
-        return customers.stream().filter(customer -> customer.getName().equalsIgnoreCase(name)).findFirst();
+    ResponseEntity<Customer> getCustomerByName(@PathVariable("name") String name) {
+        Optional<Customer> _customer = customers.stream().filter(customer -> customer.getName().equalsIgnoreCase(name)).findFirst();
+        return _customer.isPresent() ? ResponseEntity.ok(_customer.get()) : ResponseEntity.notFound().build();
     }
 
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/customers")
-    Optional<List<Customer>> getCustomers() {
-        return Optional.of(customers);
+    ResponseEntity<List<Customer>> getCustomers() {
+        return ResponseEntity.ok(customers);
     }
 
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/customers/{id}")
-    Optional<Customer> getCustomerById(@PathVariable("id") Integer id) {
+    ResponseEntity<Customer> getCustomerById(@PathVariable("id") Integer id) {
         Optional<Customer> customer = customers.stream().filter(_customer -> _customer.getId().intValue() == id).findFirst();
-        Optional<List<Account>> accountList = accountQueryClient.getAccountByCustomer(id);
-        customer.ifPresent(_customer->_customer.setAccounts(accountList.orElse(Lists.newArrayList())));
-        return customer;
+        Optional<List<Account>> accountList = Optional.ofNullable(accountQueryClient.getAccountByCustomer(id));
+        customer.ifPresent(_customer -> _customer.setAccounts(accountList.orElse(Lists.newArrayList())));
+        return customer.isPresent() ? ResponseEntity.ok(customer.get()) : ResponseEntity.notFound().build();
     }
 
 }

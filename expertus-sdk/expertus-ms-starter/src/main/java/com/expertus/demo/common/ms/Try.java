@@ -1,10 +1,9 @@
 package com.expertus.demo.common.ms;
 
-import com.netflix.client.ClientException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
-
+import com.netflix.client.ClientException;
 import java.util.function.Supplier;
 
 /**

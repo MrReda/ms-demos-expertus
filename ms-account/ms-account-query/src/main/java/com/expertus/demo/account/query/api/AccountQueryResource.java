@@ -3,6 +3,7 @@ package com.expertus.demo.account.query.api;
 
 import com.expertus.demo.account.domain.Account;
 import com.google.common.collect.Lists;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,21 +37,22 @@ public class AccountQueryResource {
     }
 
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/accounts/{count}")
-    Optional<Account> getAccountByCount(@PathVariable("count") String count) {
-        return accounts.stream().filter(
+    ResponseEntity<Account> getAccountByCount(@PathVariable("count") String count) {
+        Optional<Account> _account = accounts.stream().filter(
                 account -> account.getCount().equalsIgnoreCase(count)).findFirst();
+        return _account.isPresent() ? ResponseEntity.ok(_account.get()) : ResponseEntity.notFound().build();
     }
 
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/accounts/customer/{customerId}")
-    Optional<List<Account>> getAccountByCustomer(@PathVariable("customerId") Integer customerId) {
+    ResponseEntity<List<Account>> getAccountByCustomer(@PathVariable("customerId") Integer customerId) {
         List<Account> accountsList = accounts.stream().filter(account -> account.getCustomerId().intValue() == customerId.intValue()).collect(Collectors.toList());
-        return CollectionUtils.isEmpty(accountsList) ? Optional.empty() : Optional.of(accountsList);
+        return CollectionUtils.isEmpty(accountsList) ? ResponseEntity.notFound().build() : ResponseEntity.ok(accountsList);
     }
 
 
     @GetMapping(produces = APPLICATION_JSON_VALUE, path = "/v1/accounts")
-    Optional<List<Account>> getAllAccounts() {
-        return Optional.of(accounts);
+    ResponseEntity<List<Account>> getAllAccounts() {
+        return ResponseEntity.ok(accounts);
     }
 
 
