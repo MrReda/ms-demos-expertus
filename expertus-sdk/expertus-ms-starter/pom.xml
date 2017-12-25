@@ -45,6 +45,11 @@
             <artifactId>spring-cloud-starter-feign</artifactId>
             <version>1.3.2.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>RELEASE</version>
+        </dependency>
 
 
     </dependencies>
