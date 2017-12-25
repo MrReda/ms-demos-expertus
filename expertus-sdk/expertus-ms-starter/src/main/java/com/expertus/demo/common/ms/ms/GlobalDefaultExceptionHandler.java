@@ -37,8 +37,6 @@ public class GlobalDefaultExceptionHandler {
     }
 
 
-    //public ErrorDto handleMethodArgumentNotValid(HttpServletRequest req,)
-
 
 
 
