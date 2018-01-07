@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8761}
+  port: ${PORT:8762}
 
 eureka:
   instance:
@@ -8,4 +8,4 @@ eureka:
     registerWithEureka: false
     fetchRegistry: false
   server:
-enableSelfPreservation: false
+    enableSelfPreservation: false

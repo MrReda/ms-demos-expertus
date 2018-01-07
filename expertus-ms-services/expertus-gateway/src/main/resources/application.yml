@@ -1,16 +1,23 @@
-spring:
-  application:
-    name: ms-gateway
+info:
+component: Edge Server
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
 
 zuul:
   prefix: /api
   routes:
     account:
       path: /account/**
-      serviceId: ms-account
+      serviceId: account-service
     customer:
       path: /customer/**
-      serviceId: ms-customer
+      serviceId: customer-service
 
 ribbon:
   eureka:
@@ -19,8 +26,23 @@ ribbon:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:8762/eureka/
     registerWithEureka: true
 
 server:
-  port: 8762
+  port: 8765
+
+#logging:
+#  level:
+#    ROOT: INFO
+#    org.springframework.web: DEBUG
+
+#logging:
+#  pattern:
+#    level: %d{ABSOLUTE} [%X{X-B3-TraceId}/%X{X-B3-SpanId}] %-5p [%t] %C{2} - %m%n
+
+
+spring:
+  sleuth:
+    sampler:
+      percentage: 1.0

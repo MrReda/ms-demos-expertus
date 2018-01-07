@@ -10,11 +10,11 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@FeignClient("ms-account")
+@FeignClient("account-service")
 public interface AccountQueryClient {
 
     @RequestMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE, path = "/api/v1/accounts/customer/{customerId}")
-    List<Account> getAccountByCustomer(@PathVariable("customerId") Integer customerId);
+    List<Account> getAccountsByCustomerId(@PathVariable("customerId") Integer customerId);
 
 
 }
